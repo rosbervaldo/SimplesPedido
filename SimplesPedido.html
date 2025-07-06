@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Mestre das Massas - Pedido</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sawarabi+Mincho&display=swap" rel="stylesheet" />
+  <style>
+    body { margin: 0; font-family: 'Arial', sans-serif; background-color: #1b1b1b; background-image: url('https://i.ibb.co/20tCNk3D/427810629-7372797582765159-636898905085413006-n-LE-upscale-balanced-light-ai-30-remove-background-ge.png'); background-repeat: no-repeat; background-position: center top; background-attachment: fixed; background-size: auto 400px; color: #f5f0e6; max-width: 650px; margin: 2rem auto 4rem; box-shadow: 0 0 50px #800000a0 inset; border-radius: 12px; padding: 20px 30px 40px; }
+    h1 { font-family: 'Sawarabi Mincho', serif; font-size: 2.8rem; color: #d9452c; text-align: center; text-shadow: 2px 2px 4px #000; margin-bottom: 1rem; }
+    form { display: flex; flex-direction: column; }
+    fieldset { border: 2px solid #d9452c; border-radius: 10px; padding: 1rem 1.5rem; background: #2a2a2a99; box-shadow: inset 0 0 10px #660000aa; margin-top: 1.5rem; }
+    legend { font-weight: bold; font-size: 1.3rem; }
+    .checkbox-group, .number-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+    .number-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0;
+      border: none;
+      background: transparent;
+    }
+    .checkbox-item, .number-item { display: flex; justify-content: space-between; align-items: center; }
+    .payment-box { display: flex; flex-direction: column; gap: 0.5rem; background: #2a2a2a; padding: 1rem; border-radius: 8px; }
+    label { cursor: pointer; }
+    input, select { padding: 8px; border-radius: 8px; border: 1px solid #d9452c; background: #2a2a2a; color: #f5f0e6; font-size: 1rem; }
+    .checkbox-item label {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .checkbox-item input[type="checkbox"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 20px;
+      height: 20px;
+      border: 1px solid #d9452c;
+      border-radius: 4px;
+      background: transparent;
+      cursor: pointer;
+      margin: 0;
+    }
+    .checkbox-item input[type="checkbox"]:checked {
+      background: #d9452c;
+    }
+    input[type=number] { width: 80px; text-align: center; }
+    .info { font-size: 0.9rem; color: #ccc; margin-top: 0.5rem; }
+    button { margin-top: 1rem; padding: 1rem; font-size: 1.1rem; font-weight: bold; border: none; border-radius: 12px; background: linear-gradient(135deg, #d9452c, #800000); color: #f5f0e6; cursor: pointer; }
+    button:hover { background: linear-gradient(135deg, #ff6347, #aa2222); }
+    #resumoPedido { margin-top: 1rem; background: #2a2a2acc; border: 2px solid #d9452c; border-radius: 10px; padding: 1rem; white-space: pre-wrap; display: none; }
+    .hidden { display: none !important; }
+  </style>
+</head>
+<body>
+  <h1>Mestre das Massas</h1>
+  <form id="pedidoForm">
+    <fieldset>
+      <legend>Informações do Cliente</legend>
+      <div style="display:flex; flex-direction:column; gap:0.5rem;">
+        <label for="nome">👤 Nome:</label>
+        <input type="text" id="nome" name="nome" required>
+        <label for="telefone">📞 Telefone:</label>
+        <input type="tel" id="telefone" name="telefone" required placeholder="(00) 00000-0000">
+        <label for="endereco">🏠 Endereço:</label>
+        <input type="text" id="endereco" name="endereco" required>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Tamanho</legend>
+      <select id="tamanho" name="tamanho">
+        <option value="P">P - 500G</option>
+        <option value="M">M - 750G</option>
+        <option value="G">G - 1200G</option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <legend>Tipo de Massa</legend>
+      <select id="tipoMassa" name="tipoMassa">
+        <option value="penne">Penne</option>
+        <option value="parafuso">Parafuso</option>
+        <option value="espaguete">Espaguete</option>
+      </select>
+    </fieldset>
+    <fieldset>
+      <legend>Ingredientes (até 5) <span id="ingInfo" class="info"></span></legend>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Frango">🍗 Frango</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Bacon">🥓 Bacon</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Calabresa">🌭 Calabresa</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Batata Palha">🍟 Batata Palha</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Champignon">🍄 Champignon</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Tomate">🍅 Tomate</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Salsicha">🌭 Salsicha</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Milho">🌽 Milho</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Carne Moída">🥩 Carne Moída</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Presunto">🍖 Presunto</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="ingredientes" value="Azeitona">🍈 Azeitona</label></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Queijos (até 2) <span id="queijoInfo" class="info"></span></legend>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><label><input type="checkbox" name="queijos" value="Queijo Minas">🧀 Queijo Minas</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="queijos" value="Queijo Cheddar">🧀 Queijo Cheddar</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="queijos" value="Queijo Catupiry">🧀 Queijo Catupiry</label></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Condimentos</legend>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><label><input type="checkbox" name="condimentos" value="Alho">🧄 Alho</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="condimentos" value="Cebola">🧅 Cebola</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="condimentos" value="Cebolinha">🌿 Cebolinha</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="condimentos" value="Orégano">🌿 Orégano</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="condimentos" value="Pimenta Calabresa">🌶️ Pimenta Calabresa</label></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Molhos (até 2) <span id="molhoInfo" class="info"></span></legend>
+      <div class="checkbox-group">
+        <div class="checkbox-item"><label><input type="checkbox" name="molhos" value="Molho Vermelho">🍅 Molho Vermelho</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="molhos" value="Molho Branco">🥛 Molho Branco</label></div>
+        <div class="checkbox-item"><label><input type="checkbox" name="molhos" value="Bolonhesa">🥩 Bolonhesa</label></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Adicionais</legend>
+      <div class="number-group">
+        <div class="number-item"><label>🍗 Frango R$2,50</label><input type="number" name="add_frango" min="0" value="0"></div>
+        <div class="number-item"><label>🥓 Bacon R$3,50</label><input type="number" name="add_bacon" min="0" value="0"></div>
+        <div class="number-item"><label>🌭 Calabresa R$2,50</label><input type="number" name="add_calabresa" min="0" value="0"></div>
+        <div class="number-item"><label>🍟 Batata Palha R$2,50</label><input type="number" name="add_batata" min="0" value="0"></div>
+        <div class="number-item"><label>🍄 Champignon R$3,00</label><input type="number" name="add_champignon" min="0" value="0"></div>
+        <div class="number-item"><label>🍅 Tomate R$2,00</label><input type="number" name="add_tomate" min="0" value="0"></div>
+        <div class="number-item"><label>🌭 Salsicha R$2,00</label><input type="number" name="add_salsicha" min="0" value="0"></div>
+        <div class="number-item"><label>🌽 Milho R$2,00</label><input type="number" name="add_milho" min="0" value="0"></div>
+        <div class="number-item"><label>🥩 Carne Moída R$3,50</label><input type="number" name="add_carne" min="0" value="0"></div>
+        <div class="number-item"><label>🍖 Presunto R$2,50</label><input type="number" name="add_presunto" min="0" value="0"></div>
+        <div class="number-item"><label>🍈 Azeitona R$2,00</label><input type="number" name="add_azeitona" min="0" value="0"></div>
+        <div class="number-item"><label>🧀 Queijo Cheddar R$4,00</label><input type="number" name="add_cheddar_extra" min="0" value="0"></div>
+        <div class="number-item"><label>🧀 Queijo Catupiry R$4,00</label><input type="number" name="add_catupiry_extra" min="0" value="0"></div>
+        <div class="number-item"><label>🧀 Queijo Minas R$4,50</label><input type="number" name="add_minas_extra" min="0" value="0"></div>
+      </div>
+    </fieldset>
+    <fieldset>
+      <legend>Forma de Pagamento</legend>
+      <div class="payment-box">
+        <select id="pagamentoSelect">
+          <option value="" disabled selected>Selecione a forma de pagamento</option>
+          <option value="Dinheiro">Dinheiro</option>
+          <option value="Cartão de Débito">Cartão de Débito</option>
+          <option value="Cartão de Crédito">Cartão de Crédito</option>
+          <option value="PIX">PIX</option>
+        </select>
+        <div id="trocoBox" style="display:none; margin-left:1.5rem;">
+          <label for="valorDinheiro">💵 Valor em Dinheiro (R$):</label>
+          <input type="number" id="valorDinheiro" min="0" step="0.01">
+          <div id="trocoInfo" class="info"></div>
+        </div>
+      </div>
+    </fieldset>
+    <button type="button" id="finalizarPedido">Finalizar Pedido</button>
+    <button type="button" id="limparPedido">Limpar Pedido</button>
+    <div id="resumoPedido"></div>
+    <button type="button" id="enviarWhats" class="hidden">Enviar Pedido via WhatsApp</button>
+  </form>
+  <script>
+    // Limites de seleção
+    function limitarCheckboxes(name, max) {
+      const boxes = Array.from(document.querySelectorAll(`input[name="${name}"]`));
+      boxes.forEach(cb => cb.addEventListener('change', () => {
+        const checked = boxes.filter(b => b.checked).length;
+        if (checked > max) {
+          cb.checked = false;
+          alert(`Você pode selecionar no máximo ${max} opções em ${name}.`);
+        }
+      }));
+    }
+    limitarCheckboxes('ingredientes', 5);
+    limitarCheckboxes('queijos', 2);
+    limitarCheckboxes('molhos', 2);
+
+    const calcularTotal = () => {
+      let total = {P:25, M:30, G:35}[document.getElementById('tamanho').value];
+      document.querySelectorAll('.number-item input').forEach(inp => {
+        const precoStr = inp.previousElementSibling.innerText.replace(/[^0-9,]/g,'').replace(',','.');
+        const preco = parseFloat(precoStr) || 0;
+        total += preco * (parseInt(inp.value)||0);
+      });
+      return total;
+    };
+
+    const pagamentoSelect = document.getElementById('pagamentoSelect');
+    const trocoBox = document.getElementById('trocoBox');
+    const trocoInfo = document.getElementById('trocoInfo');
+    const valorDinheiro = document.getElementById('valorDinheiro');
+    const btnFinalizar = document.getElementById('finalizarPedido');
+    const btnLimpar = document.getElementById('limparPedido');
+    const resumoPedido = document.getElementById('resumoPedido');
+    const btnEnviarWhats = document.getElementById('enviarWhats');
+
+    pagamentoSelect.addEventListener('change', () => {
+      trocoBox.style.display = pagamentoSelect.value === 'Dinheiro' ? 'block' : 'none';
+      trocoInfo.innerText = '';
+    });
+
+    valorDinheiro.addEventListener('input', () => {
+      const dinheiro = parseFloat(valorDinheiro.value) || 0;
+      const troco = dinheiro - calcularTotal();
+      trocoInfo.innerText = troco < 0 ? `Faltam R$${Math.abs(troco).toFixed(2)}` : `Troco: R$${troco.toFixed(2)}`;
+    });
+
+    btnFinalizar.addEventListener('click', () => {
+      const nome = document.getElementById('nome').value.trim();
+      const telefone = document.getElementById('telefone').value.trim();
+      const endereco = document.getElementById('endereco').value.trim();
+      const tamanho = document.getElementById('tamanho').selectedOptions[0].text;
+      const tipoMassa = document.getElementById('tipoMassa').value;
+
+      if (!nome || !telefone || !endereco) {
+        alert('Por favor, preencha todas as informações do cliente.');
+        return;
+      }
+
+      const ingredientes = Array.from(document.querySelectorAll('input[name="ingredientes"]:checked')).map(i => i.value);
+      const queijos = Array.from(document.querySelectorAll('input[name="queijos"]:checked')).map(i => i.value);
+      const condimentos = Array.from(document.querySelectorAll('input[name="condimentos"]:checked')).map(i => i.value);
+      const molhos = Array.from(document.querySelectorAll('input[name="molhos"]:checked')).map(i => i.value);
+
+      const adicionais = Array.from(document.querySelectorAll('.number-group input')).map(input => {
+        const q = parseInt(input.value);
+        if (q > 0) {
+          const nomeAdd = input.previousElementSibling.innerText;
+          return `${nomeAdd} x${q}`;
+        }
+        return null;
+      }).filter(a => a !== null);
+
+      const total = calcularTotal();
+      const pagamento = pagamentoSelect.value;
+
+      let resumo = `🧑 Nome: ${nome}\n📞 Telefone: ${telefone}\n🏠 Endereço: ${endereco}\n\n`;
+      resumo += `🍝 Tamanho: ${tamanho}\n🍜 Tipo de Massa: ${tipoMassa}\n\n`;
+
+      resumo += ingredientes.length ? `🍲 Ingredientes: ${ingredientes.join(', ')}\n` : '';
+      resumo += queijos.length ? `🧀 Queijos: ${queijos.join(', ')}\n` : '';
+      resumo += condimentos.length ? `🌿 Condimentos: ${condimentos.join(', ')}\n` : '';
+      resumo += molhos.length ? `🍅 Molhos: ${molhos.join(', ')}\n` : '';
+      resumo += adicionais.length ? `➕ Adicionais: ${adicionais.join(', ')}\n` : '';
+
+      resumo += `\n💰 Total: R$ ${total.toFixed(2)}\n`;
+      resumo += pagamento ? `💳 Pagamento: ${pagamento}\n` : '';
+
+      resumoPedido.innerText = resumo;
+      resumoPedido.style.display = 'block';
+      btnEnviarWhats.classList.remove('hidden');
+    });
+
+    btnLimpar.addEventListener('click', () => {
+      document.getElementById('pedidoForm').reset();
+      resumoPedido.innerText = '';
+      resumoPedido.style.display = 'none';
+      btnEnviarWhats.classList.add('hidden');
+      trocoBox.style.display = 'none';
+      trocoInfo.innerText = '';
+    });
+
+    btnEnviarWhats.addEventListener('click', () => {
+      const texto = encodeURIComponent(resumoPedido.innerText);
+      const seuNumero = '5534984398393'; // Seu número fixo para receber pedidos
+      const url = `https://wa.me/${seuNumero}?text=${texto}`;
+      window.open(url, '_blank');
+    });
+  </script>
+</body>
+</html>
